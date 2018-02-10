@@ -1,0 +1,21 @@
+/* Sticky Footer Solution by Steve Hatcher
+   http://www.cssstickyfooter.com */
+
+* {border:0; margin:0; outline:0; padding:0}
+body {background:#FFF}
+
+html, body {height:100%}
+#wrap {min-height:100%}
+#main {overflow:auto; padding-bottom:18px}
+#footer {position:relative; margin-top:-18px; height:18px; clear:both}
+body:before {content:""; height:100%; float:left; width:0; margin-top:-32767px}
+
+#footer {color:#888A85; font:9px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif; list-style:none; text-align:right; text-transform:lowercase}
+#footer li {border-left:1px solid; display:inline; padding:0 7px 0 9px}
+#footer li:first-child {border:0}
+#footer a {color:#555753}
+#footer a:hover {color:#333}
+
+@media only screen and (max-width: 496px) {
+	#footer {text-align:center}
+}

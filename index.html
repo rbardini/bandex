@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml" manifest="bandex.appcache">
+	<head>
+		<meta charset="windows-1252" />
+		<title>O que tem no bandejão hoje?</title>
+		<meta name="author" content="Rafael Bardini" />
+		<meta name="description" content="Saiba qual a próxima refeição a ser servida pelo Restaurante Universitário da USP São Carlos." />
+		<meta name="keywords" content="bandejão, bandeco, bandex, restaurante universitário, ru, pcasc, cardápio, refeição, usp, caaso, são carlos" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+
+		<meta property="og:title" content="O que tem no bandejão hoje?" />
+		<meta property="og:description" content="Saiba qual a próxima refeição a ser servida pelo Restaurante Universitário da USP São Carlos." />
+		<meta property="og:url" content="http://bandex.tk/" />
+		<meta property="og:image" content="http://bandex.tk/apple-touch-icon.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="bandex.tk" />
+		<meta property="fb:admins" content="692146574" />
+		
+		<link rel="canonical" href="http://bandex.tk/" />
+		<link rel="icon" href="favicon.png" />
+		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+		<link rel="stylesheet" href="css/labs.css" />
+		<link rel="stylesheet" href="css/layout.css" />
+		<!--[if lt IE 7]>
+			<style> #wrap {display:table; height:100%} </style>
+		<![endif]-->
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<div id="newsbar">
+					<!--<p>Agora o bandex.tk também conta com consulta de créditos do cartão! &#10136;</p>-->
+					<!--<p>Agora você pode visualizar o que tem no bandejão clicando na comida que desejar!</p>-->
+					<p>Aparantemente, a <a href="http://www.pcasc.usp.br/ser_restaurante.htm">administração do Restaurante Universitário</a> deixou de disponibilizar o cardápio semanal nos formatos <a href="http://www.pcasc.usp.br/pop_cardapio.php">HTML</a> e <a href="http://www.pcasc.usp.br/restaurante.xml">XML</a>, o que impede o funcionamento desse site.<br />Se você também não concorda com essa atitude, por favor manifeste sua insatisfação pelos emails <a href="mailto:restaurante.prefeitura@sc.usp.br">restaurante.prefeitura@sc.usp.br</a> e <a href="mailto:alimentacao.prefeitura@sc.usp.br">alimentacao.prefeitura@sc.usp.br</a>.</p>
+				</div>
+				<ul id="sidebar">
+					<li class="side-item balance">
+						<a href="#">Extrato do cartão</a>
+						<form>
+							<input type="text" id="nusp" placeholder="Número USP" /><br />
+							<input type="password" id="senha" placeholder="Senha Rucard" /><br />
+							<input type="checkbox" id="remember" name="remember" /> <label for="remember">Lembre-se de mim!</label><br />
+							<p>Seus dados serão armazenados localmente, sem encriptação. Se você teme pela sua privacidade ou segurança, afaste-se.</p>
+							<input type="submit" value="Entrar" /> <a href="https://sistemas.usp.br/rucard/esqueciSenha">esqueci a senha</a>
+						</form>
+						<p></p>
+					</li>
+					<li class="side-item localstorage">
+						<a href="#">Cardápio armazenado</a>
+						<p>Novas requisições não serão feitas durante a semana. <a href="#" class="refresh" onclick="return refreshStorage();">(atualizar)</a></p>
+					</li>
+					<li class="side-item appcache">
+						<a href="#">Aplicação em cache</a>
+						<p>O site pode ser acessado mesmo sem uma conexão à Internet. <a href="#" class="refresh" onclick="return refreshCache();">(atualizar)</a></p>
+					</li>
+				</ul>
+				<ul id="nextmeal">
+					<li class="title">Cozinhando...</li>
+				</ul>
+				<div id="menu">
+					<p id="btn-slide"><a href="#">Cardápio da semana</a></p>
+					<div id="panel"></div>
+				</div>
+			</div>
+		</div>
+		<ul id="footer">
+			<li>Via <a href="http://labs.rbardini.com/">labs.rbardini.com</a></li>
+			<li><a href="http://www.facebook.com/bandex.tk">Bandex no Facebook</a></li>
+		</ul>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+		<script>!window.jQuery && document.write('<script src="js/jquery.min.js"><\/script>')</script>
+		<script src="js/server-date.js.php"></script>
+		<script src="js/app.js"></script>
+		<script>
+			var _gaq=[['_setAccount','UA-3034872-3'], ['_trackPageview'], ['_trackPageLoadTime']];
+			(function(d,t) {var g=d.createElement(t), s=d.getElementsByTagName(t)[0];
+			g.async=true; g.src='//www.google-analytics.com/ga.js';
+			s.parentNode.insertBefore(g,s);})(document,'script');
+		</script>
+	</body>
+</html>
