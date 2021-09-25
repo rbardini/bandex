@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://bandex.tk/">
-    <img alt="Bandex" src="apple-touch-icon.png" width="129" />
+    <img alt="Bandex" src="public/apple-touch-icon.png" width="129" />
   </a>
 </p>
 
