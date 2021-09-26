@@ -1,0 +1,7 @@
+{
+  "name": "bandex",
+  "version": "3.5.0",
+  "dependencies": {
+    "node-fetch": "3.0.0"
+  }
+}

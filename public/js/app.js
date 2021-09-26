@@ -11,22 +11,6 @@ Date.prototype.getWeek = function() {
 	return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() - 1) / 7);
 };
 
-String.prototype.removeDiacritics = function() {
-	var i, s = this,
-		diacritics = [
-			[/[\300-\306]/g, 'A'], [/[\340-\346]/g, 'a'],
-			[/[\310-\313]/g, 'E'], [/[\350-\353]/g, 'e'],
-			[/[\314-\317]/g, 'I'], [/[\354-\357]/g, 'i'],
-			[/[\322-\330]/g, 'O'], [/[\362-\370]/g, 'o'],
-			[/[\331-\334]/g, 'U'], [/[\371-\374]/g, 'u'],
-			[/[\321]/g, 'N'], [/[\361]/g, 'n'],
-			[/[\307]/g, 'C'], [/[\347]/g, 'c']
-		];
-	
-	for (i=0; i<diacritics.length; i++) { s = s.replace(diacritics[i][0], diacritics[i][1]); }
-	return s;
-};
-
 /* jQuery Cookie plugin (minified)
    https://github.com/carhartl/jquery-cookie */
 jQuery.cookie=function(d,e,b){if(arguments.length>1&&String(e)!=="[object Object]"){b=jQuery.extend({},b);if(e===null||e===undefined){b.expires=-1}if(typeof b.expires==="number"){var g=b.expires,c=b.expires=new Date();c.setDate(c.getDate()+g)}e=String(e);return(document.cookie=[encodeURIComponent(d),"=",b.raw?e:encodeURIComponent(e),b.expires?"; expires="+b.expires.toUTCString():"",b.path?"; path="+b.path:"",b.domain?"; domain="+b.domain:"",b.secure?"; secure":""].join(""))}b=e||{};var a,f=b.raw?function(h){return h}:decodeURIComponent;return(a=new RegExp("(?:^|; )"+encodeURIComponent(d)+"=([^;]*)").exec(document.cookie))?f(a[1]):null};
@@ -57,8 +41,7 @@ function logoutBalance() {
 
 function requestMenu(callback) {
 	var date = window.bandex.date,
-		path = 'http://www.pcasc.usp.br/restaurante.xml',
-		yql = 'http://query.yahooapis.com/v1/public/yql?q='+encodeURIComponent('select * from xml where url="'+path+'"')+'&format=json&callback=?';
+		api = '/api/menu';
 	
 	var unavailable = 'Cardápio indisponível',
 		outdated = 'Cardápio desatualizado',
@@ -67,20 +50,22 @@ function requestMenu(callback) {
 	
 	var day = date.getDay(),
 		hour = date.getHours(),
-		weekday = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-		meal = 'Almoço',
+		weekdays = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
+		meal = 'lunch',
+		meals = {lunch: 'Almoço', dinner: 'Jantar'}
 		nextday = 0;
 	
 	if (hour > 12) {
-		if (hour < 19) { meal = 'Jantar'; }
+		if (hour < 19) { meal = 'dinner'; }
 		else { nextday = 1; }
 	}
 	
-	day = weekday[(day+nextday) % 7];
-	
+	// Shift days so that 0 represents Monday and matches menu
+	day = (day+nextday+6) % 7;
+
 	if (window.localStorage && localStorage.getItem('bandex')) {
 		var json = JSON.parse(localStorage.getItem('bandex')),
-			downloaded = new Date(parseInt(json.query.downloaded));
+			downloaded = new Date(parseInt(json.downloaded));
 		if (downloaded.getWeek() === date.getWeek()) {
 			window.bandex.stored = true;
 			render(json, !(nextday && (date.getDay() === 0))); // inválido entre a janta do domingo e começo de segunda
@@ -93,7 +78,7 @@ function requestMenu(callback) {
 	else { getMenu(); }
 	
 	function getMenu() {
-		if (!window.bandex.offline) { $.getJSON(yql, cbFunc); }
+		if (!window.bandex.offline) { $.getJSON(api, cbFunc); }
 		else if (typeof callback === 'function') { callback({'nextmeal':'<li class="title">'+outdated+'</li><li>'+connection+'</li>'}); }
 	}
 	
@@ -101,7 +86,7 @@ function requestMenu(callback) {
 		var valid = validate(json);
 		
 		if (window.localStorage && valid) {
-			json.query.downloaded = date.valueOf();
+			json.downloaded = date.valueOf();
 			localStorage.setItem('bandex', JSON.stringify(json));
 			window.bandex.stored = true;
 		}
@@ -109,35 +94,20 @@ function requestMenu(callback) {
 	}
 	
 	function validate(json) {
-		var empty = true;
-
-		if (json.query.results) {
-			$.each(json.query.results.restaurante, function() {
-				if (this.data !== '\n') {
-					return empty = false;
-				}
-			});
-		}
-
-		return !empty;
+		return !json.message.error;
 	}
-	
-    function normalizeFood(food) {
-        return food.replace('Opção Vegetariana: ', '');
-    }
 
 	function render(json, valid) {
-		var menu, greve, nextmeal;
+		var menu, greve = true, nextmeal;
 		
 		if (valid) {
-			nextmeal = '<li class="title">'+meal+' de '+(!nextday ? 'hoje' : 'amanhã, hoje já era')+'</li>';
-			day = day.removeDiacritics().toLowerCase();
-			meal = meal.removeDiacritics().toLowerCase();
-			json = json.query.results.restaurante;
-			if (json[day]) {
-				$.each(json[day][meal], function(dish, food) {
-					if (food) { nextmeal += '<li id="'+dish+'"><a href="#" title="Visualizar '+dish+'">'+normalizeFood(food)+'</a></li>'; }
-					else { greve = true; }
+			nextmeal = '<li class="title">'+meals[meal]+' de '+(!nextday ? 'hoje' : 'amanhã, hoje já era')+'</li>';
+			if (json.meals[day]) {
+				$.each(json.meals[day][meal].menu, function(dish, food) {
+					if (food) {
+						nextmeal += '<li id="'+dish+'"><a href="#" title="Visualizar '+dish+'">'+food+'</a></li>';
+						greve = false;
+					}
 				});
 			}
 			else { greve = true; }
@@ -147,19 +117,19 @@ function requestMenu(callback) {
 				lunches = '<tr><td class="meal lunch">Almoço</td>',
 				dinners = '<tr><td class="meal dinner">Jantar</td>';
 			
-			$.each(json, function(weekday) {
-				columns += '<col '+((weekday === day) ? 'class="today"' : '')+'/>';
-				days += '<th>'+weekday+'</th>';
+			$.each(json.meals, function(i) {
+				columns += '<col '+((i === day) ? 'class="today"' : '')+'/>';
+				days += '<th>'+weekdays[i]+'</th>';
 				
 				lunches +='<td class="lunch"><ul>';
-				$.each(this.almoco, function(dish, food) {
-					if (food) { lunches += '<li>'+normalizeFood(food)+'</li>'; }
+				$.each(this.lunch.menu, function(dish, food) {
+					if (food) { lunches += '<li>'+food+'</li>'; }
 				});
 				lunches += '</ul></td>';
 				
 				dinners += '<td class="dinner"><ul>';
-				$.each(this.jantar, function(dish, food) {
-					if (food) { dinners += '<li>'+normalizeFood(food)+'</li>'; }
+				$.each(this.dinner.menu, function(dish, food) {
+					if (food) { dinners += '<li>'+food+'</li>'; }
 				});
 				dinners += '</ul></td>';
 			});
@@ -222,9 +192,9 @@ function displayPicture(anchor) {
 
 $(function() {
 	window.bandex = {};
-	window.bandex.offline = (typeof serverDate === 'undefined');
+	window.bandex.offline = !window.navigator.onLine;
 	window.bandex.stored = false;
-	window.bandex.date = window.bandex.offline ? new Date() : serverDate;
+	window.bandex.date = new Date();
 	
 	if (!'placeholder' in document.createElement('input')) {
 		$('[placeholder]').focus(function() {
@@ -256,7 +226,7 @@ $(function() {
 				displayPicture($(this));
 			});
 		}).animate({marginLeft:'0'}, 'slow', function() {
-			$('#newsbar').slideDown(); //.delay(5000).slideUp();
+			// $('#newsbar').slideDown(); //.delay(5000).slideUp();
 		});
 		
 		if (results.menu) {

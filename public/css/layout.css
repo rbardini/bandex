@@ -43,7 +43,7 @@ p.error {color:#EF2929 !important}
 #btn-slide a {background:url('../img/menu.png') no-repeat center top; display:block; margin:0 auto 24px; text-indent:-9999px; overflow:hidden; width:60px; height:60px}
 #btn-slide a.active {background-position:center bottom}
 table {border-collapse:collapse; width:100%}
-col {border-left:1px solid #000; width:14%}
+col {border-left:1px solid #000; width:12.5%}
 col:first-child {border:0}
 th {text-align:left}
 td {padding:3px 5px; vertical-align:top}
