@@ -10,5 +10,5 @@
 
 The original source code of a highly successful 2010 university experiment:
 
-> Get to know the next meal served by the [University Restaurant](http://www.puspsc.usp.br/cardapio/) at [USP São Carlos](http://www.saocarlos.usp.br), and more.
-> It provides a friendly interface for mobile devices and stores the seven-day menu weekly for offline access.
+> Get to know the next meal served by the [University Restaurant](https://www.puspsc.usp.br/cardapio/) at [USP São Carlos](https://www.saocarlos.usp.br/), and more.
+> Bandex provides a friendly user interface for both desktop and mobile devices, and caches the weekly menu for offline access.

@@ -2,8 +2,8 @@ CACHE MANIFEST
 # rev 39
 
 CACHE:
-http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js
-http://unpkg.com/js-cookie@3.0.1/dist/js.cookie.min.js
+https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js
+https://unpkg.com/js-cookie@3.0.1/dist/js.cookie.min.js
 favicon.png
 css/labs.css
 css/layout.css
@@ -14,5 +14,4 @@ img/spinner.gif
 
 NETWORK:
 *
-http://*
 https://*
