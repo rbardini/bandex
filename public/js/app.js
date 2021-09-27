@@ -105,7 +105,7 @@ function requestMenu(callback) {
 			
 			$.each(json.meals, function(i) {
 				columns += '<col '+((i === day) ? 'class="today"' : '')+'/>';
-				days += '<th>'+weekdays[i]+'</th>';
+				days += '<th>'+weekdays[i]+' '+this.date.split('-').pop()+'</th>';
 				
 				lunches +='<td class="lunch"><ul>';
 				$.each(this.lunch.menu, function(dish, food) {
