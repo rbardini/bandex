@@ -1,5 +1,5 @@
 /* General */
-body {font-family:Helvetica, Arial, sans-serif}
+body {background:center/cover no-repeat fixed; font-family:Helvetica, Arial, sans-serif}
 ul {list-style:none}
 #main, input {text-transform:lowercase}
 input, label {font-size:12px; margin-bottom:6px}
