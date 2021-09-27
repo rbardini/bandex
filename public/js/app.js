@@ -1,10 +1,4 @@
-/**
- * Bandex v3.5
- * Copyright (c) 2011 Rafael Bardini
- * 
- * Licensed under the MIT license
- * http://www.opensource.org/licenses/mit-license.php
- */
+'use strict';
 
 Date.prototype.getWeek = function() {
 	var onejan = new Date(this.getFullYear(), 0, 1);
@@ -44,7 +38,7 @@ function requestMenu(callback) {
 		hour = date.getHours(),
 		weekdays = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
 		meal = 'lunch',
-		meals = {lunch: 'Almoço', dinner: 'Jantar'}
+		meals = {lunch: 'Almoço', dinner: 'Jantar'},
 		nextday = 0;
 	
 	if (hour > 12) {
