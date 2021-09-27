@@ -180,12 +180,11 @@ function requestBalance(form, nusp, senha, remember) {
 }
 
 function displayPicture(anchor) {
-	var imgSearch = 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q='+encodeURIComponent(anchor.text())+'&rsz=1&callback=?';
+	var imgSearch = '/api/picture?q='+encodeURIComponent(anchor.text());
 	var item = anchor.closest('li').addClass('loading');
 	
 	$.getJSON(imgSearch, function(data) {
-		var imgUrl = data.responseData.results[0].url;
-		$.backstretch(imgUrl, {speed: 300});
+		$.backstretch(data.url, {speed: 300});
 		item.removeClass('loading');
 	});
 }
