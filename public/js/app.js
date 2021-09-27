@@ -11,10 +11,6 @@ Date.prototype.getWeek = function() {
 	return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() - 1) / 7);
 };
 
-/* jQuery Cookie plugin (minified)
-   https://github.com/carhartl/jquery-cookie */
-jQuery.cookie=function(d,e,b){if(arguments.length>1&&String(e)!=="[object Object]"){b=jQuery.extend({},b);if(e===null||e===undefined){b.expires=-1}if(typeof b.expires==="number"){var g=b.expires,c=b.expires=new Date();c.setDate(c.getDate()+g)}e=String(e);return(document.cookie=[encodeURIComponent(d),"=",b.raw?e:encodeURIComponent(e),b.expires?"; expires="+b.expires.toUTCString():"",b.path?"; path="+b.path:"",b.domain?"; domain="+b.domain:"",b.secure?"; secure":""].join(""))}b=e||{};var a,f=b.raw?function(h){return h}:decodeURIComponent;return(a=new RegExp("(?:^|; )"+encodeURIComponent(d)+"=([^;]*)").exec(document.cookie))?f(a[1]):null};
-
 function refreshStorage() {
 	window.localStorage.clear();
 	window.location.reload();
@@ -29,8 +25,8 @@ function refreshCache() {
 }
 
 function logoutBalance() {
-	$.cookie('nusp', null);
-	$.cookie('senha', null);
+	Cookies.remove('nusp');
+	Cookies.remove('senha');
 	window.location.reload();
 	return false;
 }
@@ -155,8 +151,8 @@ function requestBalance(form, nusp, senha, remember) {
 				});
 				form.remove();
 				if (remember) {
-					$.cookie('nusp', nusp);
-					$.cookie('senha', senha);
+					Cookies.set('nusp', nusp);
+					Cookies.set('senha', senha);
 				}
 			} else {
 				form.slideDown();
@@ -244,11 +240,11 @@ $(function() {
 	
 	$('.balance > a').click(function(event) {
 		var form = $('form'),
-			nusp = $.cookie('nusp'),
-			senha = $.cookie('senha');
+			nusp = Cookies.get('nusp'),
+			senha = Cookies.get('senha');
 		event.preventDefault();
 		if (form.length) {
-			if (nusp !== null && senha !== null) {
+			if (nusp != null && senha != null) {
 				requestBalance(form, nusp, senha, true);
 				return;
 			}
