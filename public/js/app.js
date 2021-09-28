@@ -63,20 +63,20 @@ function requestMenu(callback) {
 	}
 	else { getMenu(); }
 	
-	function getMenu() {
-		if (!window.bandex.offline) { $.getJSON(api, cbFunc); }
-		else if (typeof callback === 'function') { callback({'nextmeal':'<li class="title">'+outdated+'</li><li>'+connection+'</li>'}); }
-	}
-	
-	function cbFunc(json) {
-		var valid = validate(json);
-		
-		if (window.localStorage && valid) {
-			json.downloaded = date.valueOf();
-			localStorage.setItem('bandex', JSON.stringify(json));
-			window.bandex.stored = true;
+	async function getMenu() {
+		if (!window.bandex.offline) {
+			var response = await fetch(api);
+			var json = await response.json();
+			var valid = validate(json);
+			
+			if (window.localStorage && valid) {
+				json.downloaded = date.valueOf();
+				localStorage.setItem('bandex', JSON.stringify(json));
+				window.bandex.stored = true;
+			}
+			render(json, valid);
 		}
-		render(json, valid);
+		else if (typeof callback === 'function') { callback({'nextmeal':'<li class="title">'+outdated+'</li><li>'+connection+'</li>'}); }
 	}
 	
 	function validate(json) {
@@ -89,9 +89,9 @@ function requestMenu(callback) {
 		if (valid) {
 			nextmeal = '<li class="title">'+meals[meal]+' de '+(!nextday ? 'hoje' : 'amanhã, hoje já era')+'</li>';
 			if (json.meals[day]) {
-				$.each(json.meals[day][meal].menu, function(dish, food) {
+				json.meals[day][meal].menu.forEach(function(food) {
 					if (food) {
-						nextmeal += '<li id="'+dish+'"><a href="#" title="Visualizar '+dish+'">'+food+'</a></li>';
+						nextmeal += '<li><a href="#" title="Visualizar">'+food+'</a></li>';
 						greve = false;
 					}
 				});
@@ -103,18 +103,18 @@ function requestMenu(callback) {
 				lunches = '<tr><td class="meal lunch">Almoço</td>',
 				dinners = '<tr><td class="meal dinner">Jantar</td>';
 			
-			$.each(json.meals, function(i) {
+			json.meals.forEach(function({date, lunch, dinner}, i) {
 				columns += '<col '+((i === day) ? 'class="today"' : '')+'/>';
-				days += '<th>'+weekdays[i]+' '+this.date.split('-').pop()+'</th>';
+				days += '<th>'+weekdays[i]+' '+date.split('-').pop()+'</th>';
 				
 				lunches +='<td class="lunch"><ul>';
-				$.each(this.lunch.menu, function(dish, food) {
+				lunch.menu.forEach(function(food) {
 					if (food) { lunches += '<li>'+food+'</li>'; }
 				});
 				lunches += '</ul></td>';
 				
 				dinners += '<td class="dinner"><ul>';
-				$.each(this.dinner.menu, function(dish, food) {
+				dinner.menu.forEach(function(food) {
 					if (food) { dinners += '<li>'+food+'</li>'; }
 				});
 				dinners += '</ul></td>';
@@ -130,49 +130,52 @@ function requestMenu(callback) {
 	}
 }
 
-function requestBalance(form, nusp, senha, remember) {
+async function requestBalance(form, nusp, senha, remember) {
 	var result = form.next();
 	
 	form.slideUp();
 	result.removeClass('error').html('Perguntando pro tiozinho...').slideDown();
-	$.ajax({
-		url: 'rucard.php',
-		data: 'nusp='+nusp+'&senha='+senha,
-		success: function(data) {
-			if (data >= 0) {
-				result.slideUp('fast', function() {
-					$(this).html('<span class="bignum">'+data+'</span> crédito'+(data > 1 ? 's' : '')+' de saldo na conta '+nusp+'. <a href="#" onclick="return logoutBalance();">(sair)</a>').slideDown();
-				});
-				form.remove();
-				if (remember) {
-					Cookies.set('nusp', nusp);
-					Cookies.set('senha', senha);
-				}
-			} else {
-				form.slideDown();
-				result.html('Número USP ou senha inválidos.').addClass('error');
+
+	var response = await fetch('rucard.php?nusp='+nusp+'&senha='+senha);
+
+	if (response.ok) {
+		var data = await response.text();
+
+		if (data >= 0) {
+			result.slideUp('fast', function() {
+				$(this).html('<span class="bignum">'+data+'</span> crédito'+(data > 1 ? 's' : '')+' de saldo na conta '+nusp+'. <a href="#" onclick="return logoutBalance();">(sair)</a>').slideDown();
+			});
+			form.remove();
+			if (remember) {
+				Cookies.set('nusp', nusp);
+				Cookies.set('senha', senha);
 			}
-		},
-		error: function() {
+		} else {
 			form.slideDown();
-			if (window.bandex.offline) {
-				result.html('A consulta de créditos requer uma conexão à Internet.');
-			} else {
-				result.html('Não foi possível completar a sua ligação, tente novamente mais tarde.');
-			}
-			result.addClass('error');
+			result.html('Número USP ou senha inválidos.').addClass('error');
 		}
-	});
+	} else {
+		form.slideDown();
+		if (window.bandex.offline) {
+			result.html('A consulta de créditos requer uma conexão à Internet.');
+		} else {
+			result.html('Não foi possível completar a sua ligação, tente novamente mais tarde.');
+		}
+		result.addClass('error');
+	}
 }
 
-function displayPicture(anchor) {
-	var imgSearch = '/api/picture?q='+encodeURIComponent(anchor.text());
-	var item = anchor.closest('li').addClass('loading');
+async function displayPicture(anchor) {
+	var imgSearch = '/api/picture?q='+encodeURIComponent(anchor.text);
+	var item = anchor.closest('li')
 	
-	$.getJSON(imgSearch, function(data) {
-		$('body').css('background-image', 'url('+data.url+')');
-		item.removeClass('loading');
-	});
+	item.classList.add('loading');
+	
+	var response = await fetch(imgSearch);
+	var data = await response.json();
+
+	document.body.style.backgroundImage = 'url('+data.url+')';
+	item.classList.remove('loading');
 }
 
 $(function() {
@@ -182,9 +185,11 @@ $(function() {
 	window.bandex.date = new Date();
 	
 	if (window.applicationCache) {
-		$(window.applicationCache).bind('updateready cached noupdate', function() {
-			$('.appcache > a').css('display','block');
-		});
+		['updateready', 'cached', 'noupdate'].forEach(type => {
+			window.applicationCache.addEventListener(type, function() {
+				$('.appcache > a').css('display','block');
+			});
+		})
 	}
 	
 	requestMenu(function(results) {
@@ -192,7 +197,7 @@ $(function() {
 			$(this).html(results.nextmeal);
 			$('#nextmeal a').click(function(event) {
 				event.preventDefault();
-				displayPicture($(this));
+				displayPicture(this);
 			});
 		}).animate({marginLeft:'0'}, 'slow', function() {
 			// $('#newsbar').slideDown(); //.delay(5000).slideUp();
@@ -249,7 +254,7 @@ $(function() {
 	
 	$('#btn-slide a').click(function(event) {
 		event.preventDefault();
-		$(this).toggleClass('active');
+		this.classList.toggle('active');
 		$('#panel').slideToggle('slow');
 	});
 });
