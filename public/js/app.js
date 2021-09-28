@@ -181,22 +181,6 @@ $(function() {
 	window.bandex.stored = false;
 	window.bandex.date = new Date();
 	
-	if (!'placeholder' in document.createElement('input')) {
-		$('[placeholder]').focus(function() {
-			var input = $(this);
-			if (input.val() == input.attr('placeholder')) { input.val(''); }
-		}).blur(function() {
-			var input = $(this);
-			if (input.val() == '' || input.val() == input.attr('placeholder')) { input.val(input.attr('placeholder')); }
-		}).blur();
-		$('[placeholder]').parents('form').submit(function() {
-			$(this).find('[placeholder]').each(function() {
-				var input = $(this);
-				if (input.val() == input.attr('placeholder')) { input.val(''); }
-			})
-		});
-	}
-	
 	if (window.applicationCache) {
 		$(window.applicationCache).bind('updateready cached noupdate', function() {
 			$('.appcache > a').css('display','block');
