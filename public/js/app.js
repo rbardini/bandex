@@ -5,6 +5,11 @@ Date.prototype.getWeek = function() {
 	return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() - 1) / 7);
 };
 
+Date.prototype.toTimezoneISODateString = function() {
+	var date = new Date(this.getTime() - this.getTimezoneOffset() * 60000);
+	return date.toISOString().split('T').shift();
+};
+
 function refreshStorage() {
 	window.localStorage.clear();
 	window.location.reload();
@@ -26,7 +31,7 @@ function logoutBalance() {
 }
 
 function requestMenu(callback) {
-	var date = window.bandex.date,
+	var now = new Date(),
 		api = '/api/menu';
 	
 	var unavailable = 'Cardápio indisponível',
@@ -34,27 +39,17 @@ function requestMenu(callback) {
 		connection = 'Conecte-se à Internet',
 		nothing = 'Nada :(';
 	
-	var day = date.getDay(),
-		hour = date.getHours(),
-		weekdays = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
-		meal = 'lunch',
-		meals = {lunch: 'Almoço', dinner: 'Jantar'},
-		nextday = 0;
-	
-	if (hour > 12) {
-		if (hour < 19) { meal = 'dinner'; }
-		else { nextday = 1; }
-	}
-	
-	// Shift days so that 0 represents Monday and matches menu
-	day = (day+nextday+6) % 7;
+	var hour = now.getHours(),
+		nextday = (hour < 19) ? 0 : 1,
+		meal = (hour < 13 || nextday) ? 'lunch' : 'dinner',
+		day = new Date(now.getTime() + nextday * 86400000).toTimezoneISODateString();
 
 	if (window.localStorage && localStorage.getItem('bandex')) {
 		var json = JSON.parse(localStorage.getItem('bandex')),
 			downloaded = new Date(parseInt(json.downloaded));
-		if (downloaded.getWeek() === date.getWeek()) {
+		if (downloaded.getWeek() === now.getWeek()) {
 			window.bandex.stored = true;
-			render(json, !(nextday && (date.getDay() === 0))); // inválido entre a janta do domingo e começo de segunda
+			render(json, validate(json));
 		}
 		else {
 			localStorage.removeItem('bandex');
@@ -70,7 +65,7 @@ function requestMenu(callback) {
 			var valid = validate(json);
 			
 			if (window.localStorage && valid) {
-				json.downloaded = date.valueOf();
+				json.downloaded = now.valueOf();
 				localStorage.setItem('bandex', JSON.stringify(json));
 				window.bandex.stored = true;
 			}
@@ -80,32 +75,27 @@ function requestMenu(callback) {
 	}
 	
 	function validate(json) {
-		return !json.message.error;
+		return !json.message.error && json.meals.some(function({date}) { return date === day });
 	}
 
 	function render(json, valid) {
 		var menu, greve = true, nextmeal;
 		
 		if (valid) {
-			nextmeal = '<li class="title">'+meals[meal]+' de '+(!nextday ? 'hoje' : 'amanhã, hoje já era')+'</li>';
-			if (json.meals[day]) {
-				json.meals[day][meal].menu.forEach(function(food) {
-					if (food) {
-						nextmeal += '<li><a href="#" title="Visualizar">'+food+'</a></li>';
-						greve = false;
-					}
-				});
-			}
-			else { greve = true; }
+			nextmeal = '<li class="title">'+(meal === 'lunch' ? 'Almoço' : 'Jantar')+' de '+(!nextday ? 'hoje' : 'amanhã, hoje já era')+'</li>';
+			json.meals.find(function({date}) { return date === day })?.[meal].menu.forEach(function(food) {
+				nextmeal += '<li><a href="#" title="Visualizar">'+food+'</a></li>';
+				greve = false;
+			});
 			
 			var columns = '<col class="meals" />',
 				days = '<tr><th></th>',
 				lunches = '<tr><td class="meal lunch">Almoço</td>',
 				dinners = '<tr><td class="meal dinner">Jantar</td>';
 			
-			json.meals.forEach(function({date, lunch, dinner}, i) {
-				columns += '<col '+((i === day) ? 'class="today"' : '')+'/>';
-				days += '<th>'+weekdays[i]+' '+date.split('-').pop()+'</th>';
+			json.meals.forEach(function({date, lunch, dinner}) {
+				columns += '<col '+((date === now.toTimezoneISODateString()) ? 'class="today"' : '')+'/>';
+				days += '<th>'+new Date(date).toLocaleDateString('pt-BR', {weekday: 'short', day: '2-digit'})+'</th>';
 				
 				lunches +='<td class="lunch"><ul>';
 				lunch.menu.forEach(function(food) {
@@ -182,7 +172,6 @@ $(function() {
 	window.bandex = {};
 	window.bandex.offline = !window.navigator.onLine;
 	window.bandex.stored = false;
-	window.bandex.date = new Date();
 	
 	if (window.applicationCache) {
 		['updateready', 'cached', 'noupdate'].forEach(type => {
