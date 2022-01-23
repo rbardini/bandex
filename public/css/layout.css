@@ -19,8 +19,8 @@ p.error {color:#EF2929 !important}
 #nextmeal {font-size:100px; letter-spacing:-10px; list-style:none; text-shadow:0 0 16px #FFF}
 #nextmeal li {color:#000; line-height:0.85; padding-left:100px}
 .loading {background:url("../img/spinner.gif") no-repeat 25px center}
-#nextmeal a {color:#000; text-decoration:none; border-bottom:2px solid #DDD; border-color:rgba(0,0,0,0.1); -webkit-transition:all 0.25s; -moz-transition:all 0.25s; -o-transition:all 0.25s; -ms-transition:all 0.25s; transition:all 0.25s}
-#nextmeal a:hover {border-color:#000}
+#nextmeal a {color:#000; text-decoration:underline 2px rgba(0,0,0,0.1); transition:all 0.25s}
+#nextmeal a:hover {text-decoration-color:#000}
 #nextmeal .title {color:#AAA; padding:0; text-shadow:none}
 
 /* Sidebar */
