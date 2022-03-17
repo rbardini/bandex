@@ -20,7 +20,7 @@ p.error {color:#EF2929 !important}
 /* Next meal */
 #nextmeal {font-size:clamp(3.125rem, 5vw + 1rem, 6.25rem); letter-spacing:-0.1em; list-style:none; text-shadow:0 0 16px #FFF}
 #nextmeal li {color:#000; line-height:0.85; padding-left:1em}
-.loading {background:url("../img/spinner.gif") no-repeat 25px center}
+.loading {background:url("../img/spinner.gif") no-repeat calc(1em - 48px) center}
 #nextmeal a {color:#000; text-decoration:underline 2px rgba(0,0,0,0.1); transition:all 0.25s}
 #nextmeal a:hover {text-decoration-color:#000}
 #nextmeal .title {color:#AAA; padding:0; text-shadow:none}
@@ -64,7 +64,6 @@ td {padding:3px 5px; vertical-align:top}
 /* All Mobile Sizes (devices and browser) */
 @media only screen and (max-width: 767px) {
 	#newsbar p {background-size:34px 36px; padding:8px 0 8px 40px}
-	.loading {background-position:5px center}
 	.side-item > a {text-indent:-9999px; overflow:hidden; padding-left:4px; width:16px}
 	#sidebar p, #sidebar form {color:#000}
 	#footer {text-align:center}
