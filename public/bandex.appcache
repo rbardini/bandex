@@ -3,8 +3,8 @@ CACHE MANIFEST
 
 CACHE:
 favicon.png
-css/layout.css
-js/app.js
+main.css
+app.js
 img/menu.png
 img/features.png
 img/spinner.gif
