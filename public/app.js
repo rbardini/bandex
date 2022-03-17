@@ -96,7 +96,7 @@ function requestMenu(callback) {
 			
 			json.meals.forEach(function({date, lunch, dinner}) {
 				columns += '<col '+((date === now.toTimezoneISODateString()) ? 'class="today"' : '')+'/>';
-				days += '<th>'+new Date(date).toLocaleDateString('pt-BR', {weekday: 'short', day: '2-digit'})+'</th>';
+				days += '<th>'+new Date(date).toLocaleDateString('pt-BR', {weekday: 'short', day: '2-digit'}).replace(/\W+/, ' ')+'</th>';
 				
 				lunches +='<td class="lunch"><ul>';
 				lunch.menu.forEach(function(food) {
