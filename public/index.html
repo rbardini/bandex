@@ -20,44 +20,41 @@
 		<link rel="canonical" href="https://bandex.netlify.app/" />
 		<link rel="icon" href="favicon.png" />
 		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-		<link rel="stylesheet" href="css/labs.css" />
 		<link rel="stylesheet" href="css/layout.css" />
 	</head>
 	<body>
-		<div id="wrap">
-			<div id="main">
-				<div id="newsbar">
-					<!--<p>Agora o Bandex também conta com consulta de créditos do cartão! &#10136;</p>-->
-					<!--<p>Agora você pode visualizar o que tem no bandejão clicando na comida que desejar!</p>-->
-				</div>
-				<ul id="sidebar">
-					<li class="side-item balance">
-						<a href="#">Extrato do cartão</a>
-						<form>
-							<input type="text" id="nusp" placeholder="Número USP" /><br />
-							<input type="password" id="senha" placeholder="Senha Rucard" /><br />
-							<input type="checkbox" id="remember" name="remember" /> <label for="remember">Lembre-se de mim!</label><br />
-							<p>Seus dados serão armazenados localmente, sem encriptação. Se você teme pela sua privacidade ou segurança, afaste-se.</p>
-							<input type="submit" value="Entrar" /> <a href="https://sistemas.usp.br/rucard/esqueciSenha">esqueci a senha</a>
-						</form>
-						<p></p>
-					</li>
-					<li class="side-item localstorage">
-						<a href="#">Cardápio armazenado</a>
-						<p>Novas requisições não serão feitas durante a semana. <a href="#" class="refresh storage">(atualizar)</a></p>
-					</li>
-					<li class="side-item appcache">
-						<a href="#">Aplicação em cache</a>
-						<p>O site pode ser acessado mesmo sem uma conexão à Internet. <a href="#" class="refresh cache">(atualizar)</a></p>
-					</li>
-				</ul>
-				<ul id="nextmeal">
-					<li class="title">Cozinhando...</li>
-				</ul>
-				<div id="menu">
-					<p id="btn-slide"><a href="#">Cardápio da semana</a></p>
-					<div id="panel"></div>
-				</div>
+		<div id="main">
+			<div id="newsbar">
+				<!--<p>Agora o Bandex também conta com consulta de créditos do cartão! &#10136;</p>-->
+				<!--<p>Agora você pode visualizar o que tem no bandejão clicando na comida que desejar!</p>-->
+			</div>
+			<ul id="sidebar">
+				<li class="side-item balance">
+					<a href="#">Extrato do cartão</a>
+					<form>
+						<input type="text" id="nusp" placeholder="Número USP" /><br />
+						<input type="password" id="senha" placeholder="Senha Rucard" /><br />
+						<input type="checkbox" id="remember" name="remember" /> <label for="remember">Lembre-se de mim!</label><br />
+						<p>Seus dados serão armazenados localmente, sem encriptação. Se você teme pela sua privacidade ou segurança, afaste-se.</p>
+						<input type="submit" value="Entrar" /> <a href="https://sistemas.usp.br/rucard/esqueciSenha">esqueci a senha</a>
+					</form>
+					<p></p>
+				</li>
+				<li class="side-item localstorage">
+					<a href="#">Cardápio armazenado</a>
+					<p>Novas requisições não serão feitas durante a semana. <a href="#" class="refresh storage">(atualizar)</a></p>
+				</li>
+				<li class="side-item appcache">
+					<a href="#">Aplicação em cache</a>
+					<p>O site pode ser acessado mesmo sem uma conexão à Internet. <a href="#" class="refresh cache">(atualizar)</a></p>
+				</li>
+			</ul>
+			<ul id="nextmeal">
+				<li class="title">Cozinhando...</li>
+			</ul>
+			<div id="menu">
+				<p id="btn-slide"><a href="#">Cardápio da semana</a></p>
+				<div id="panel"></div>
 			</div>
 		</div>
 		<ul id="footer">
