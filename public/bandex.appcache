@@ -2,8 +2,6 @@ CACHE MANIFEST
 # rev 44
 
 CACHE:
-https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js
-https://unpkg.com/js-cookie@3.0.1/dist/js.cookie.min.js
 favicon.png
 css/labs.css
 css/layout.css

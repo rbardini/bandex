@@ -1,4 +1,5 @@
-'use strict';
+import Cookies from 'https://cdn.skypack.dev/js-cookie';
+import $ from 'https://cdn.skypack.dev/jquery';
 
 Date.prototype.getWeek = function() {
 	var onejan = new Date(this.getFullYear(), 0, 1);
@@ -10,24 +11,24 @@ Date.prototype.toTimezoneISODateString = function() {
 	return date.toISOString().split('T').shift();
 };
 
-function refreshStorage() {
+function refreshStorage(event) {
+	event.preventDefault();
 	window.localStorage.clear();
 	window.location.reload();
-	return false;
 }
 
-function refreshCache() {
+function refreshCache(event) {
+	event.preventDefault();
 	window.applicationCache.update();
 	if (window.applicationCache.status === 4) { window.applicationCache.swapCache(); }
 	window.location.reload();
-	return false;
 }
 
-function logoutBalance() {
+function logoutBalance(event) {
+	event.preventDefault();
 	Cookies.remove('nusp');
 	Cookies.remove('senha');
 	window.location.reload();
-	return false;
 }
 
 function requestMenu(callback) {
@@ -133,7 +134,7 @@ async function requestBalance(form, nusp, senha, remember) {
 
 		if (data >= 0) {
 			result.slideUp('fast', function() {
-				$(this).html('<span class="bignum">'+data+'</span> crédito'+(data > 1 ? 's' : '')+' de saldo na conta '+nusp+'. <a href="#" onclick="return logoutBalance();">(sair)</a>').slideDown();
+				$(this).html('<span class="bignum">'+data+'</span> crédito'+(data > 1 ? 's' : '')+' de saldo na conta '+nusp+'. ').append($('<a href="#">(sair)</a>').click(logoutBalance)).slideDown();
 			});
 			form.remove();
 			if (remember) {
@@ -168,7 +169,7 @@ async function displayPicture(anchor) {
 	item.classList.remove('loading');
 }
 
-$(function() {
+function init() {
 	window.bandex = {};
 	window.bandex.offline = !window.navigator.onLine;
 	window.bandex.stored = false;
@@ -246,4 +247,9 @@ $(function() {
 		this.classList.toggle('active');
 		$('#panel').slideToggle('slow');
 	});
-});
+
+	$('.refresh.storage').click(refreshStorage);
+	$('.refresh.cache').click(refreshCache);
+}
+
+init();
