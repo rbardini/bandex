@@ -19,9 +19,11 @@ function refreshStorage(event) {
 
 function refreshCache(event) {
 	event.preventDefault();
-	window.applicationCache.update();
-	if (window.applicationCache.status === 4) { window.applicationCache.swapCache(); }
-	window.location.reload();
+	navigator.serviceWorker.getRegistration().then(function(registration) {
+		registration.unregister().then(function() {
+			window.location.reload();
+		});
+	});
 }
 
 function logoutBalance(event) {
@@ -174,13 +176,10 @@ function init() {
 	window.bandex.offline = !window.navigator.onLine;
 	window.bandex.stored = false;
 	
-	if (window.applicationCache) {
-		['updateready', 'cached', 'noupdate'].forEach(type => {
-			window.applicationCache.addEventListener(type, function() {
-				$('.appcache > a').css('display','block');
-			});
-		})
-	}
+	navigator.serviceWorker.register('/sw.js');
+	navigator.serviceWorker.ready.then(function() {
+		$('.appcache > a').css('display','block');
+	});
 	
 	requestMenu(function(results) {
 		$('#nextmeal').animate({marginLeft:'-100%'}, 'slow', function() {
@@ -201,7 +200,6 @@ function init() {
 		$('.balance > a').css('display','block');
 		if (window.bandex.stored) { $('.localstorage > a').css('display','block'); }
 		if (window.bandex.offline) {
-			$('.appcache > a').css('display','block');
 			$('.refresh').hide();
 		}
 	});
