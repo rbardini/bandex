@@ -47,15 +47,15 @@ function requestMenu(callback) {
 		meal = (hour < 13 || nextday) ? 'lunch' : 'dinner',
 		day = new Date(now.getTime() + nextday * 86400000).toTimezoneISODateString();
 
-	if (window.localStorage && localStorage.getItem('bandex')) {
-		var json = JSON.parse(localStorage.getItem('bandex')),
+	if (localStorage.getItem('menu')) {
+		var json = JSON.parse(localStorage.getItem('menu')),
 			downloaded = new Date(parseInt(json.downloaded));
 		if (downloaded.getWeek() === now.getWeek()) {
 			window.bandex.stored = true;
 			render(json, validate(json));
 		}
 		else {
-			localStorage.removeItem('bandex');
+			localStorage.removeItem('menu');
 			getMenu();
 		}
 	}
@@ -67,9 +67,9 @@ function requestMenu(callback) {
 			var json = await response.json();
 			var valid = validate(json);
 			
-			if (window.localStorage && valid) {
+			if (valid) {
 				json.downloaded = now.valueOf();
-				localStorage.setItem('bandex', JSON.stringify(json));
+				localStorage.setItem('menu', JSON.stringify(json));
 				window.bandex.stored = true;
 			}
 			render(json, valid);
