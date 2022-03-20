@@ -32,9 +32,9 @@ export const handler = async (event) => {
 			[lunch, dinner].forEach((meal) => {
 				meal.menu = meal.menu
 					.replace('Arroz/Feijão', 'Arroz e feijão')
-					.split('/')
-					.map((dish) => dish.replace(/^.*\:\s*/, ''))
-					.filter((dish) => dish !== 'Fechado');
+					.split(/[/\n]/)
+					.map((dish) => dish.replace(/^.*\:\s*/, '').trim())
+					.filter((dish) => dish && dish !== 'Fechado');
 			});
 		});
 		
