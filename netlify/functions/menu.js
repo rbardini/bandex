@@ -3,7 +3,6 @@ import fetch from 'node-fetch';
 // https://github.com/JopiterApp/USP-Restaurant-API
 const API_ENDPOINT = 'https://uspdigital.usp.br/rucard/servicos/menu/';
 const RESTAURANT_ID = 2;
-const HASH = '596df9effde6f877717b4e81fdb2ca9f';
 
 export const handler = async (event) => {
 	// Only allow HTTP GET method
@@ -19,7 +18,7 @@ export const handler = async (event) => {
 	try {
 		const response = await fetch(new URL(RESTAURANT_ID, API_ENDPOINT), {
 			method: 'POST',
-			body: new URLSearchParams({ hash: HASH }),
+			body: new URLSearchParams({ hash: process.env.MENU_API_HASH }),
 		});
 		const data = await response.json();
 		
