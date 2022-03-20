@@ -1,5 +1,5 @@
 /* General */
-* {border:0; margin:0; outline:0; padding:0}
+* {border:0; margin:0; padding:0}
 html, body {height:100%}
 body {background:#FFF center/cover no-repeat fixed; display:grid; font-family:Helvetica, Arial, sans-serif; grid-template-rows:1fr 18px}
 ul {list-style:none}
