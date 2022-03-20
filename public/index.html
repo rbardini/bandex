@@ -30,7 +30,12 @@
 			</div>
 			<ul id="sidebar">
 				<li class="side-item balance">
-					<a href="#">Extrato do cartão</a>
+					<a href="#">
+						<svg viewBox="0 0 24 24" width="20px" height="20px" fill="currentColor" aria-labelledby="balance-title">
+							<path d="M22 4H2.01L2 20h20V4zm-2 14H4v-6h16v6zm0-10H4V6h16v2z" />
+						</svg>
+						<span id="balance-title">Extrato do cartão</span>
+					</a>
 					<form>
 						<input type="text" id="nusp" placeholder="Número USP" /><br />
 						<input type="password" id="senha" placeholder="Senha Rucard" /><br />
@@ -41,11 +46,21 @@
 					<p></p>
 				</li>
 				<li class="side-item localstorage">
-					<a href="#">Cardápio armazenado</a>
+					<a href="#">
+						<svg viewBox="0 0 24 24" width="20px" height="20px" fill="currentColor" aria-labelledby="localstorage-title">
+							<path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z" />
+						</svg>
+						<span id="localstorage-title">Cardápio armazenado</span>
+					</a>
 					<p>Novas requisições não serão feitas durante a semana. <a href="#" class="refresh storage">(atualizar)</a></p>
 				</li>
 				<li class="side-item appcache">
-					<a href="#">Aplicação em cache</a>
+					<a href="#">
+						<svg viewBox="0 0 24 24" width="20px" height="20px" fill="currentColor" aria-labelledby="appcache-title">
+							<path d="M11,21h-1l1-7H6.74c0,0,3.68-6.46,6.26-11h1l-1,7h4.28L11,21z" />
+						</svg>
+						<span id="appcache-title">Aplicação em cache</span>
+					</a>
 					<p>O site pode ser acessado mesmo sem uma conexão à Internet. <a href="#" class="refresh cache">(atualizar)</a></p>
 				</li>
 			</ul>
@@ -53,7 +68,16 @@
 				<li class="title">Cozinhando...</li>
 			</ul>
 			<div id="menu">
-				<p id="btn-slide"><a href="#">Cardápio da semana</a></p>
+				<p id="btn-slide">
+					<a href="#">
+						<svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+							<title>Cardápio da semana</title>
+							<path d="M9 3l3-3 3 3z" class="up" />
+							<path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" />
+							<path d="M9 21l3 3 3-3z" class="down" />
+						</svg>
+					</a>
+				</p>
 				<div id="panel"></div>
 			</div>
 		</div>

@@ -7,6 +7,7 @@ ul {list-style:none}
 input, label {font-size:inherit; margin-bottom:6px}
 input[type="text"], input[type="password"] {border-style:solid; border-width:0 1px 1px 0; color:#000; padding:2px 0}
 input[type="submit"] {background:#000; color:#FFF; padding:2px 4px; text-align:right}
+a {color:#000}
 ::selection {background:#000; color:#FFF}
 
 /* Utils */
@@ -20,8 +21,8 @@ p.error {color:#EF2929 !important}
 /* Next meal */
 #nextmeal {font-size:clamp(3.125rem, 5vw + 1rem, 6.25rem); letter-spacing:-0.1em; list-style:none; text-shadow:0 0 16px #FFF}
 #nextmeal li {color:#000; line-height:0.85; padding-left:1em}
-.loading {background:url("../img/spinner.gif") no-repeat calc(1em - 48px) center}
-#nextmeal a {color:#000; text-decoration:underline 2px rgba(0,0,0,0.1); transition:all 0.25s}
+.loading {background:url("spinner.gif") no-repeat calc(1em - 48px) center}
+#nextmeal a {text-decoration:underline 2px rgba(0,0,0,0.1); transition:all 0.25s}
 #nextmeal a:hover {text-decoration-color:#000}
 #nextmeal .title {color:#AAA; padding:0; text-shadow:none}
 
@@ -30,11 +31,9 @@ p.error {color:#EF2929 !important}
 #sidebar p, #sidebar form {display:none; font-size:0.75rem; width:150px}
 #sidebar p {color:#AAA}
 #sidebar form p {margin:0 0 6px 0}
-#sidebar a {color:#000}
 .side-item > p, .side-item > form {margin-left:24px}
-.side-item > a {background:url('../img/features.png') no-repeat 4px 4px; display:none; padding:2px 4px 2px 24px; text-decoration:none}
-.localstorage > a {background-position:4px -30px}
-.appcache > a {background-position:4px -60px}
+.side-item > a {display:none; padding:2px 4px; text-decoration:none}
+.side-item > a > svg {vertical-align:bottom}
 .bignum {font-size:1.5rem; float:left; margin:2px 4px 0 0}
 #nusp, #senha {width:130px}
 
@@ -42,8 +41,10 @@ p.error {color:#EF2929 !important}
 #menu {bottom:0; letter-spacing:-0.06em; position:fixed; width:100%}
 #panel {background:rgba(255,255,255,0.8); display:none; font-size:clamp(0.75rem, 2vw, 1rem); margin-bottom:18px}
 #btn-slide {display:none}
-#btn-slide a {background:url('../img/menu.png') no-repeat center top; display:block; margin:0 auto 24px; text-indent:-9999px; overflow:hidden; width:60px; height:60px}
-#btn-slide a.active {background-position:center bottom}
+#btn-slide a {display:block; margin:0 auto 24px; overflow:hidden; width:60px; height:60px}
+#btn-slide a .down {display:none}
+#btn-slide a.active .up {display:none}
+#btn-slide a.active .down {display:unset}
 table {border-collapse:collapse; width:100%}
 col {border-left:1px solid #000; width:12.5%}
 col:first-child {border:0}
@@ -64,7 +65,6 @@ td {padding:3px 5px; vertical-align:top}
 /* All Mobile Sizes (devices and browser) */
 @media only screen and (max-width: 767px) {
 	#newsbar p {background-size:34px 36px; padding:8px 0 8px 40px}
-	.side-item > a {text-indent:-9999px; overflow:hidden; padding-left:4px; width:16px}
-	#sidebar p, #sidebar form {color:#000}
+	.side-item > a > span {display:none}
 	#footer {text-align:center}
 }
