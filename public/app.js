@@ -173,13 +173,15 @@ async function displayPicture(anchor) {
 
 function init() {
 	window.bandex = {};
-	window.bandex.offline = !window.navigator.onLine;
+	window.bandex.offline = !navigator.onLine;
 	window.bandex.stored = false;
 	
-	navigator.serviceWorker.register('/sw.js');
-	navigator.serviceWorker.ready.then(function() {
-		$('.appcache > a').css('display','block');
-	});
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker.register('/sw.js');
+		navigator.serviceWorker.ready.then(function() {
+			$('.appcache > a').css('display','block');
+		});
+	}
 	
 	requestMenu(function(results) {
 		$('#nextmeal').animate({marginLeft:'-100%'}, 'slow', function() {
