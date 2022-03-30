@@ -1,6 +1,33 @@
 {
   "name": "bandex",
   "version": "3.5.0",
+  "description": "Get to know the next meal served by the University Restaurant at USP São Carlos, and more.",
+  "keywords": [
+    "bandejao",
+    "university",
+    "restaurant",
+    "menu",
+    "calendar",
+    "meal",
+    "usp",
+    "icmc",
+    "sao-carlos",
+    "caaso"
+  ],
+  "homepage": "https://bandex.rbrd.in/",
+  "bugs": {
+    "url": "https://github.com/rbardini/bandex/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rbardini/bandex.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Rafael Bardini",
+    "email": "rafael@rbardini.com",
+    "url": "https://rbardini.com/"
+  },
   "dependencies": {
     "node-fetch": "3.2.3"
   }
