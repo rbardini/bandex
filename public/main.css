@@ -51,7 +51,7 @@ p.error {color:var(--errorColor) !important}
 #nextmeal .title {color:var(--infoColor); padding:0; text-shadow:none}
 
 /* Sidebar */
-#sidebar {background:var(--overlayColor); float:right}
+#sidebar {background:var(--overlayColor); float:right; position:relative; z-index:1}
 #sidebar p, #sidebar form {display:none; font-size:0.75rem; width:150px}
 #sidebar p {color:var(--infoColor)}
 #sidebar form p {margin:0 0 6px 0}
