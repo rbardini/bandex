@@ -20,6 +20,8 @@
 	}
 }
 
+@keyframes spinner {to {transform: rotate(360deg)}}
+
 /* General */
 * {border:0; margin:0; padding:0}
 html, body {height:100%}
@@ -42,8 +44,8 @@ p.error {color:var(--errorColor) !important}
 
 /* Next meal */
 #nextmeal {font-size:clamp(3.125rem, 5vw + 1rem, 6.25rem); letter-spacing:-0.1em; list-style:none; text-shadow:0 0 16px var(--bgColor)}
-#nextmeal li {line-height:0.85; padding-left:1em}
-.loading {background:url("spinner.gif") no-repeat calc(1em - 48px) center}
+#nextmeal li {line-height:0.85; padding-left:1em; position:relative}
+.loading::before {animation:spinner .6s linear infinite; border:2px solid var(--fgColor); border-radius:50%; border-top-color:transparent; content:""; display:block; height:0.5em; left:0.25em; position:absolute; top:0.125em; width:0.5em}
 #nextmeal a {text-decoration:underline 2px var(--underlineColor); transition:all 0.25s}
 #nextmeal a:hover {text-decoration-color:var(--fgColor)}
 #nextmeal .title {color:var(--infoColor); padding:0; text-shadow:none}
