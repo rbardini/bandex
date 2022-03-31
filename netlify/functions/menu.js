@@ -32,6 +32,7 @@ export const handler = async (event) => {
 			[lunch, dinner].forEach((meal) => {
 				meal.menu = meal.menu
 					.replace('Arroz/Feijão', 'Arroz e feijão')
+					.replace('Saladas: Diversas', 'Saladas diversas')
 					.split(/[/\n]/)
 					.map((dish) => dish.replace(/^.*\:\s*/, '').trim())
 					.filter((dish) => dish && dish !== 'Fechado');
