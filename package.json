@@ -31,12 +31,12 @@
   "scripts": {
     "format": "prettier --ignore-path .gitignore .",
     "lint": "eslint --ignore-path .gitignore .",
-    "prepare": "husky install"
-  },
-  "dependencies": {
-    "node-fetch": "3.2.3"
+    "prepare": "husky install",
+    "start": "netlify dev"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "5.27.0",
+    "@typescript-eslint/parser": "5.27.0",
     "eslint": "8.17.0",
     "husky": "8.0.1",
     "lint-staged": "13.0.0",

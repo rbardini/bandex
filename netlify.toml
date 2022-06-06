@@ -1,10 +1,10 @@
 [build]
   publish = "public"
 
-[functions]
-  node_bundler = "esbuild"
+[[edge_functions]]
+  path = "/api/menu"
+  function = "menu"
 
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+[[edge_functions]]
+  path = "/api/picture"
+  function = "picture"
