@@ -1,21 +1,10 @@
 import Cookies from 'https://cdn.skypack.dev/js-cookie';
 import $ from 'https://cdn.skypack.dev/jquery';
 
-Date.prototype.getWeek = function() {
-	var onejan = new Date(this.getFullYear(), 0, 1);
-	return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() - 1) / 7);
-};
-
 Date.prototype.toTimezoneISODateString = function() {
 	var date = new Date(this.getTime() - this.getTimezoneOffset() * 60000);
 	return date.toISOString().split('T').shift();
 };
-
-function refreshStorage(event) {
-	event.preventDefault();
-	window.localStorage.clear();
-	window.location.reload();
-}
 
 function refreshCache(event) {
 	event.preventDefault();
@@ -47,34 +36,21 @@ function requestMenu(callback) {
 		meal = (hour < 13 || nextday) ? 'lunch' : 'dinner',
 		day = new Date(now.getTime() + nextday * 86400000).toTimezoneISODateString();
 
-	if (localStorage.getItem('menu')) {
-		var json = JSON.parse(localStorage.getItem('menu')),
-			downloaded = new Date(parseInt(json.downloaded));
-		if (downloaded.getWeek() === now.getWeek()) {
-			window.bandex.stored = true;
-			render(json, validate(json));
-		}
-		else {
-			localStorage.removeItem('menu');
-			getMenu();
-		}
-	}
-	else { getMenu(); }
+	getMenu();
 	
 	async function getMenu() {
-		if (!window.bandex.offline) {
+		try {
 			var response = await fetch(api);
+			
+			if (!response.ok) throw new Error(response.statusText);
+			
 			var json = await response.json();
 			var valid = validate(json);
 			
-			if (valid) {
-				json.downloaded = now.valueOf();
-				localStorage.setItem('menu', JSON.stringify(json));
-				window.bandex.stored = true;
-			}
 			render(json, valid);
+		} catch {
+			callback({'nextmeal':'<li class="title">'+outdated+'</li><li>'+connection+'</li>'});
 		}
-		else if (typeof callback === 'function') { callback({'nextmeal':'<li class="title">'+outdated+'</li><li>'+connection+'</li>'}); }
 	}
 	
 	function validate(json) {
@@ -119,7 +95,7 @@ function requestMenu(callback) {
 		else { nextmeal = '<li class="title">'+unavailable+'</li>'; }
 		if (greve) { nextmeal += '<li>'+nothing+'</li>'; }
 		
-		if (typeof callback === 'function') { callback({'nextmeal':nextmeal, 'menu':menu}); }
+		callback({'nextmeal':nextmeal, 'menu':menu});
 	}
 }
 
@@ -174,7 +150,6 @@ async function displayPicture(anchor) {
 function init() {
 	window.bandex = {};
 	window.bandex.offline = !navigator.onLine;
-	window.bandex.stored = false;
 	
 	if ('serviceWorker' in navigator) {
 		navigator.serviceWorker.register('/sw.js');
@@ -200,13 +175,12 @@ function init() {
 		}
 		
 		$('.balance > a').css('display','block');
-		if (window.bandex.stored) { $('.localstorage > a').css('display','block'); }
 		if (window.bandex.offline) {
-			$('.refresh').hide();
+			$('.refresh-cache').hide();
 		}
 	});
 	
-	$('.appcache > a, .localstorage > a').click(function(event) {
+	$('.appcache > a').click(function(event) {
 		event.preventDefault();
 		$(this).next().stop(true,true).slideToggle();
 	});
@@ -248,8 +222,7 @@ function init() {
 		$('#panel').slideToggle('slow');
 	});
 
-	$('.refresh.storage').click(refreshStorage);
-	$('.refresh.cache').click(refreshCache);
+	$('.refresh-cache').click(refreshCache);
 }
 
 init();
