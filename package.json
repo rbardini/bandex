@@ -30,13 +30,16 @@
   },
   "scripts": {
     "format": "prettier --ignore-path .gitignore .",
-    "lint": "eslint --ignore-path .gitignore ."
+    "lint": "eslint --ignore-path .gitignore .",
+    "prepare": "husky install"
   },
   "dependencies": {
     "node-fetch": "3.2.3"
   },
   "devDependencies": {
     "eslint": "8.17.0",
+    "husky": "8.0.1",
+    "lint-staged": "13.0.0",
     "prettier": "2.6.2",
     "prettier-plugin-packagejson": "2.2.18"
   }
