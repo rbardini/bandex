@@ -199,7 +199,7 @@ function init() {
 		$(this).next().stop(true,true).slideToggle();
 	});
 	
-	$('#remember').click(function(event) {
+	$('#remember').click(function() {
 		$(this).nextAll('p').stop(true,true).slideToggle();
 	});
 	

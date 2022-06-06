@@ -34,7 +34,7 @@ export const handler = async (event) => {
 					.replace('Arroz/Feijão', 'Arroz e feijão')
 					.replace('Saladas: Diversas', 'Saladas diversas')
 					.split(/[/\n]/)
-					.map((dish) => dish.replace(/^.*\:\s*/, '').trim())
+					.map((dish) => dish.replace(/^.*:\s*/, '').trim())
 					.filter((dish) => dish && dish !== 'Fechado');
 			});
 		});
