@@ -1,84 +1,143 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-	<head>
-		<meta charset="windows-1252" />
-		<title>O que tem no bandejão hoje?</title>
-		<meta name="author" content="Rafael Bardini" />
-		<meta name="description" content="Saiba qual a próxima refeição a ser servida pelo Restaurante Universitário da USP São Carlos." />
-		<meta name="keywords" content="bandejão, bandeco, bandex, restaurante universitário, ru, pcasc, cardápio, refeição, usp, caaso, são carlos" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
+  <head>
+    <meta charset="windows-1252" />
+    <title>O que tem no bandejão hoje?</title>
+    <meta name="author" content="Rafael Bardini" />
+    <meta
+      name="description"
+      content="Saiba qual a próxima refeição a ser servida pelo Restaurante Universitário da USP São Carlos."
+    />
+    <meta
+      name="keywords"
+      content="bandejão, bandeco, bandex, restaurante universitário, ru, pcasc, cardápio, refeição, usp, caaso, são carlos"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
 
-		<meta property="og:title" content="O que tem no bandejão hoje?" />
-		<meta property="og:description" content="Saiba qual a próxima refeição a ser servida pelo Restaurante Universitário da USP São Carlos." />
-		<meta property="og:url" content="https://bandex.rbrd.in/" />
-		<meta property="og:image" content="https://bandex.rbrd.in/apple-touch-icon.png" />
-		<meta property="og:type" content="website" />
-		<meta property="og:site_name" content="Bandex" />
-		<meta property="fb:admins" content="692146574" />
-		
-		<link rel="canonical" href="https://bandex.rbrd.in/" />
-		<link rel="icon" href="favicon.png" />
-		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-		<link rel="stylesheet" href="main.css" />
-	</head>
-	<body>
-		<div id="main">
-			<div id="newsbar">
-				<!--<p>Agora o Bandex também conta com consulta de créditos do cartão! &#10136;</p>-->
-				<!--<p>Agora você pode visualizar o que tem no bandejão clicando na comida que desejar!</p>-->
-			</div>
-			<ul id="sidebar">
-				<li class="side-item balance">
-					<a href="#">
-						<svg viewBox="0 0 24 24" width="20px" height="20px" fill="currentColor" aria-labelledby="balance-title">
-							<path d="M22 4H2.01L2 20h20V4zm-2 14H4v-6h16v6zm0-10H4V6h16v2z" />
-						</svg>
-						<span id="balance-title">Extrato do cartão</span>
-					</a>
-					<form>
-						<input type="text" id="nusp" placeholder="Número USP" /><br />
-						<input type="password" id="senha" placeholder="Senha Rucard" /><br />
-						<input type="checkbox" id="remember" name="remember" /> <label for="remember">Lembre-se de mim!</label><br />
-						<p>Seus dados serão armazenados localmente, sem encriptação. Se você teme pela sua privacidade ou segurança, afaste-se.</p>
-						<input type="submit" value="Entrar" /> <a href="https://sistemas.usp.br/rucard/esqueciSenha">esqueci a senha</a>
-					</form>
-					<p></p>
-				</li>
-				<li class="side-item appcache">
-					<a href="#">
-						<svg viewBox="0 0 24 24" width="20px" height="20px" fill="currentColor" aria-labelledby="appcache-title">
-							<path d="M11,21h-1l1-7H6.74c0,0,3.68-6.46,6.26-11h1l-1,7h4.28L11,21z" />
-						</svg>
-						<span id="appcache-title">Aplicação em cache</span>
-					</a>
-					<p>O site pode ser acessado mesmo sem uma conexão à Internet. <a href="#" class="refresh-cache">(atualizar)</a></p>
-				</li>
-			</ul>
-			<ul id="nextmeal">
-				<li class="title">Cozinhando...</li>
-			</ul>
-			<div id="menu">
-				<p id="btn-slide">
-					<a href="#">
-						<svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
-							<title>Cardápio da semana</title>
-							<path d="M9 3l3-3 3 3z" class="up" />
-							<path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" />
-							<path d="M9 21l3 3 3-3z" class="down" />
-						</svg>
-					</a>
-				</p>
-				<div id="panel"></div>
-			</div>
-		</div>
-		<ul id="footer">
-			<li><a href="https://www.puspsc.usp.br/cardapio/">Cardápio oficial</a></li>
-			<li><a href="https://github.com/rbardini/bandex">GitHub</a></li>
-			<li><a href="https://www.facebook.com/bandex.tk">Facebook</a></li>
-		</ul>
-		<script type="module" src="app.js"></script>
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-3034872-3"></script>
-		<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','UA-3034872-3')</script>
-	</body>
+    <meta property="og:title" content="O que tem no bandejão hoje?" />
+    <meta
+      property="og:description"
+      content="Saiba qual a próxima refeição a ser servida pelo Restaurante Universitário da USP São Carlos."
+    />
+    <meta property="og:url" content="https://bandex.rbrd.in/" />
+    <meta
+      property="og:image"
+      content="https://bandex.rbrd.in/apple-touch-icon.png"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bandex" />
+    <meta property="fb:admins" content="692146574" />
+
+    <link rel="canonical" href="https://bandex.rbrd.in/" />
+    <link rel="icon" href="favicon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div id="main">
+      <div id="newsbar">
+        <!--<p>Agora o Bandex também conta com consulta de créditos do cartão! &#10136;</p>-->
+        <!--<p>Agora você pode visualizar o que tem no bandejão clicando na comida que desejar!</p>-->
+      </div>
+      <ul id="sidebar">
+        <li class="side-item balance">
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              width="20px"
+              height="20px"
+              fill="currentColor"
+              aria-labelledby="balance-title"
+            >
+              <path d="M22 4H2.01L2 20h20V4zm-2 14H4v-6h16v6zm0-10H4V6h16v2z" />
+            </svg>
+            <span id="balance-title">Extrato do cartão</span>
+          </a>
+          <form>
+            <input type="text" id="nusp" placeholder="Número USP" /><br />
+            <input
+              type="password"
+              id="senha"
+              placeholder="Senha Rucard"
+            /><br />
+            <input type="checkbox" id="remember" name="remember" />
+            <label for="remember">Lembre-se de mim!</label><br />
+            <p>
+              Seus dados serão armazenados localmente, sem encriptação. Se você
+              teme pela sua privacidade ou segurança, afaste-se.
+            </p>
+            <input type="submit" value="Entrar" />
+            <a href="https://sistemas.usp.br/rucard/esqueciSenha"
+              >esqueci a senha</a
+            >
+          </form>
+          <p></p>
+        </li>
+        <li class="side-item appcache">
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              width="20px"
+              height="20px"
+              fill="currentColor"
+              aria-labelledby="appcache-title"
+            >
+              <path
+                d="M11,21h-1l1-7H6.74c0,0,3.68-6.46,6.26-11h1l-1,7h4.28L11,21z"
+              />
+            </svg>
+            <span id="appcache-title">Aplicação em cache</span>
+          </a>
+          <p>
+            O site pode ser acessado mesmo sem uma conexão à Internet.
+            <a href="#" class="refresh-cache">(atualizar)</a>
+          </p>
+        </li>
+      </ul>
+      <ul id="nextmeal">
+        <li class="title">Cozinhando...</li>
+      </ul>
+      <div id="menu">
+        <p id="btn-slide">
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              width="100%"
+              height="100%"
+              fill="currentColor"
+            >
+              <title>Cardápio da semana</title>
+              <path d="M9 3l3-3 3 3z" class="up" />
+              <path
+                d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"
+              />
+              <path d="M9 21l3 3 3-3z" class="down" />
+            </svg>
+          </a>
+        </p>
+        <div id="panel"></div>
+      </div>
+    </div>
+    <ul id="footer">
+      <li>
+        <a href="https://www.puspsc.usp.br/cardapio/">Cardápio oficial</a>
+      </li>
+      <li><a href="https://github.com/rbardini/bandex">GitHub</a></li>
+      <li><a href="https://www.facebook.com/bandex.tk">Facebook</a></li>
+    </ul>
+    <script type="module" src="app.js"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-3034872-3"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'UA-3034872-3')
+    </script>
+  </body>
 </html>
