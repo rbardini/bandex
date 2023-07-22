@@ -251,7 +251,11 @@ td {
 #footer {
   background: var(--overlayColor);
   color: var(--infoColor);
-  font: 9px/2 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma,
+  font:
+    9px/2 'Lucida Grande',
+    'Lucida Sans Unicode',
+    'Lucida Sans',
+    Tahoma,
     sans-serif;
   list-style: none;
   text-align: right;
