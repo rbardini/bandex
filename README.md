@@ -8,7 +8,7 @@
 
 # [Bandex](https://bandex.rbrd.in)
 
-[![Deploy status](https://img.shields.io/netlify/dfe440ac-8dff-490d-9074-ae1ebf12f309?label=deploy)](https://app.netlify.com/sites/bandex/deploys)
+[![Deploy status](https://img.shields.io/netlify/dfe440ac-8dff-490d-9074-ae1ebf12f309)](https://app.netlify.com/sites/bandex/deploys)
 
 Get to know the next meal served by the [University Restaurant](https://www.puspsc.usp.br/cardapio/) at [USP São Carlos](https://www.saocarlos.usp.br/), and more.
 
