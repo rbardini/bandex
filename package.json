@@ -34,9 +34,9 @@
     "start": "netlify dev"
   },
   "devDependencies": {
-    "husky": "9.1.4",
-    "lint-staged": "15.2.8",
-    "prettier": "3.3.3",
-    "prettier-plugin-packagejson": "2.5.1"
+    "husky": "9.1.7",
+    "lint-staged": "16.2.7",
+    "prettier": "3.7.4",
+    "prettier-plugin-packagejson": "2.5.20"
   }
 }
