@@ -1,9 +1,31 @@
 import Cookies from 'https://cdn.skypack.dev/js-cookie'
-import $ from 'https://cdn.skypack.dev/jquery'
 
 Date.prototype.toTimezoneISODateString = function () {
   var date = new Date(this.getTime() - this.getTimezoneOffset() * 60000)
   return date.toISOString().split('T').shift()
+}
+
+var effects = {
+  duration: { fast: 200, normal: 400, slow: 600 },
+  animate(element, keyframes, duration = 'normal') {
+    return new Promise(resolve => {
+      element.animate(keyframes, {
+        duration: this.duration[duration],
+        fill: 'forwards',
+      }).onfinish = resolve
+    })
+  },
+  slideUp(element, duration) {
+    return this.animate(element, { height: 0 }, duration)
+  },
+  slideDown(element, duration) {
+    return this.animate(element, { height: 'auto' }, duration)
+  },
+  slideToggle(element, duration) {
+    return element.clientHeight
+      ? this.slideUp(element, duration)
+      : this.slideDown(element, duration)
+  },
 }
 
 function refreshCache(event) {
@@ -144,10 +166,12 @@ function requestMenu(callback) {
 }
 
 async function requestBalance(form, nusp, senha, remember) {
-  var result = form.next()
+  var result = form.nextElementSibling
 
-  form.slideUp()
-  result.removeClass('error').html('Perguntando pro tiozinho...').slideDown()
+  effects.slideUp(form)
+  result.classList.remove('error')
+  result.innerHTML = 'Perguntando pro tiozinho...'
+  effects.slideDown(result)
 
   var response = await fetch('rucard.php?nusp=' + nusp + '&senha=' + senha)
 
@@ -155,39 +179,43 @@ async function requestBalance(form, nusp, senha, remember) {
     var data = await response.text()
 
     if (data >= 0) {
-      result.slideUp('fast', function () {
-        $(this)
-          .html(
-            '<span class="bignum">' +
-              data +
-              '</span> crédito' +
-              (data > 1 ? 's' : '') +
-              ' de saldo na conta ' +
-              nusp +
-              '. ',
-          )
-          .append($('<a href="#">(sair)</a>').click(logoutBalance))
-          .slideDown()
-      })
+      await effects.slideUp(result, 'fast')
+      result.innerHTML =
+        '<span class="bignum">' +
+        data +
+        '</span> crédito' +
+        (data > 1 ? 's' : '') +
+        ' de saldo na conta ' +
+        nusp +
+        '. '
+
+      var logout = document.createElement('a')
+      logout.href = '#'
+      logout.textContent = '(sair)'
+      logout.onclick = logoutBalance
+      result.appendChild(logout)
+
+      effects.slideDown(result)
+
       form.remove()
       if (remember) {
         Cookies.set('nusp', nusp)
         Cookies.set('senha', senha)
       }
     } else {
-      form.slideDown()
-      result.html('Número USP ou senha inválidos.').addClass('error')
+      effects.slideDown(form)
+      result.innerHTML = 'Número USP ou senha inválidos.'
+      result.classList.add('error')
     }
   } else {
-    form.slideDown()
+    effects.slideDown(form)
     if (window.bandex.offline) {
-      result.html('A consulta de créditos requer uma conexão à Internet.')
+      result.innerHTML = 'A consulta de créditos requer uma conexão à Internet.'
     } else {
-      result.html(
-        'Não foi possível completar a sua ligação, tente novamente mais tarde.',
-      )
+      result.innerHTML =
+        'Não foi possível completar a sua ligação, tente novamente mais tarde.'
     }
-    result.addClass('error')
+    result.classList.add('error')
   }
 }
 
@@ -211,79 +239,77 @@ function init() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
     navigator.serviceWorker.ready.then(function () {
-      $('.appcache > a').css('display', 'block')
+      document.querySelector('.appcache > a').style.display = 'block'
     })
   }
 
-  requestMenu(function (results) {
-    $('#nextmeal')
-      .animate({ marginLeft: '-100%' }, 'slow', function () {
-        $(this).html(results.nextmeal)
-        $('#nextmeal a').click(function (event) {
-          event.preventDefault()
-          displayPicture(this)
-        })
-      })
-      .animate({ marginLeft: '0' }, 'slow', function () {
-        // $('#newsbar').slideDown(); //.delay(5000).slideUp();
-      })
+  requestMenu(async function (results) {
+    var nextmeal = document.querySelector('#nextmeal')
+    await effects.animate(nextmeal, { marginLeft: '-100%' }, 'slow')
+    nextmeal.innerHTML = results.nextmeal
+    nextmeal.onclick = function (event) {
+      if (event.target.tagName !== 'A') return
+      event.preventDefault()
+      displayPicture(event.target)
+    }
+    effects.animate(nextmeal, { marginLeft: 0 }, 'slow')
 
     if (results.menu) {
-      $('#panel').html(results.menu)
-      $('#btn-slide').fadeIn('slow')
+      document.querySelector('#panel').innerHTML = results.menu
+      document.querySelector('#btn-slide').style.display = 'block'
     }
 
-    $('.balance > a').css('display', 'block')
+    document.querySelector('.balance > a').style.display = 'block'
     if (window.bandex.offline) {
-      $('.refresh-cache').hide()
+      document.querySelector('.refresh-cache').style.display = 'none'
     }
   })
 
-  $('.appcache > a').click(function (event) {
+  document.querySelector('.appcache > a').onclick = function (event) {
     event.preventDefault()
-    $(this).next().stop(true, true).slideToggle()
-  })
+    effects.slideToggle(this.nextElementSibling)
+  }
 
-  $('.balance > a').click(function (event) {
-    var form = $('form'),
+  document.querySelector('.balance > a').onclick = function (event) {
+    var form = document.querySelector('form'),
       nusp = Cookies.get('nusp'),
       senha = Cookies.get('senha')
     event.preventDefault()
-    if (form.length) {
+    if (form) {
       if (nusp != null && senha != null) {
         requestBalance(form, nusp, senha, true)
         return
       }
     }
-    $(this).next().stop(true, true).slideToggle()
-  })
+    effects.slideToggle(this.nextElementSibling)
+  }
 
-  $('#remember').click(function () {
-    $(this).nextAll('p').stop(true, true).slideToggle()
-  })
+  document.querySelector('#remember').onclick = function () {
+    effects.slideToggle(document.querySelector('#remember ~ p'))
+  }
 
-  $('form').submit(function () {
-    var nusp = $('#nusp'),
-      senha = $('#senha'),
-      remember = $('#remember').is(':checked')
+  document.querySelector('form').onsubmit = function () {
+    var nusp = document.querySelector('#nusp'),
+      senha = document.querySelector('#senha'),
+      remember = !!document.querySelector('#remember:checked')
 
-    !nusp.val() ? nusp.addClass('error') : nusp.removeClass('error')
-    !senha.val() ? senha.addClass('error') : senha.removeClass('error')
-    if (!nusp.val() || !senha.val()) {
+    nusp.classList.toggle('error', !nusp.value)
+    senha.classList.toggle('error', !senha.value)
+    if (!nusp.value || !senha.value) {
       return false
     }
 
-    requestBalance($(this), nusp.val(), senha.val(), remember)
+    requestBalance(this, nusp.value, senha.value, remember)
     return false
-  })
+  }
 
-  $('#btn-slide a').click(function (event) {
+  document.querySelector('#btn-slide a').onclick = function (event) {
     event.preventDefault()
     this.classList.toggle('active')
-    $('#panel').slideToggle('slow')
-  })
+    effects.slideToggle(document.querySelector('#panel'), 'slow')
+  }
 
-  $('.refresh-cache').click(refreshCache)
+  document.querySelector('.refresh-cache').onclick = refreshCache
 }
 
 init()

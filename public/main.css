@@ -41,6 +41,7 @@ body {
   display: grid;
   font-family: Helvetica, Arial, sans-serif;
   grid-template-rows: 1fr 18px;
+  interpolate-size: allow-keywords;
 }
 ul {
   list-style: none;
@@ -142,8 +143,9 @@ p.error {
 }
 #sidebar p,
 #sidebar form {
-  display: none;
   font-size: 0.75rem;
+  height: 0;
+  overflow: clip;
   width: 150px;
 }
 #sidebar p {
@@ -183,12 +185,15 @@ p.error {
 }
 #panel {
   background: var(--overlayColor);
-  display: none;
   font-size: clamp(0.75rem, 2vw, 1rem);
+  height: 0;
   margin-bottom: 18px;
+  overflow: clip;
 }
 #btn-slide {
   display: none;
+  transition: display 600ms;
+  transition-behavior: allow-discrete;
 }
 #btn-slide a {
   display: block;
