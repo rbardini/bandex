@@ -1,8 +1,28 @@
-import Cookies from 'https://cdn.skypack.dev/js-cookie'
-
 Date.prototype.toTimezoneISODateString = function () {
   var date = new Date(this.getTime() - this.getTimezoneOffset() * 60000)
   return date.toISOString().split('T').shift()
+}
+
+var cookies = {
+  get(name) {
+    return document.cookie
+      .split('; ')
+      .find(row => row.startsWith(name + '='))
+      ?.split('=')[1]
+  },
+  set(name, value, attributes = {}) {
+    return (document.cookie = [
+      [name, value],
+      ['path', '/'],
+      ...Object.entries(attributes),
+    ]
+      .map(entry => entry.join('='))
+      .filter(Boolean)
+      .join('; '))
+  },
+  remove(name) {
+    return this.set(name, '', { expires: new Date(0).toUTCString() })
+  },
 }
 
 var effects = {
@@ -39,8 +59,8 @@ function refreshCache(event) {
 
 function logoutBalance(event) {
   event.preventDefault()
-  Cookies.remove('nusp')
-  Cookies.remove('senha')
+  cookies.remove('nusp')
+  cookies.remove('senha')
   window.location.reload()
 }
 
@@ -199,8 +219,8 @@ async function requestBalance(form, nusp, senha, remember) {
 
       form.remove()
       if (remember) {
-        Cookies.set('nusp', nusp)
-        Cookies.set('senha', senha)
+        cookies.set('nusp', nusp)
+        cookies.set('senha', senha)
       }
     } else {
       effects.slideDown(form)
@@ -272,8 +292,8 @@ function init() {
 
   document.querySelector('.balance > a').onclick = function (event) {
     var form = document.querySelector('form'),
-      nusp = Cookies.get('nusp'),
-      senha = Cookies.get('senha')
+      nusp = cookies.get('nusp'),
+      senha = cookies.get('senha')
     event.preventDefault()
     if (form) {
       if (nusp != null && senha != null) {
