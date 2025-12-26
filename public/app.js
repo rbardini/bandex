@@ -1,8 +1,3 @@
-Date.prototype.toTimezoneISODateString = function () {
-  var date = new Date(this.getTime() - this.getTimezoneOffset() * 60000)
-  return date.toISOString().split('T').shift()
-}
-
 var cookies = {
   get(name) {
     return document.cookie
@@ -48,6 +43,13 @@ var effects = {
   },
 }
 
+function getTimezoneISODateString(date) {
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+    .toISOString()
+    .split('T')
+    .shift()
+}
+
 function refreshCache(event) {
   event.preventDefault()
   navigator.serviceWorker.getRegistration().then(function (registration) {
@@ -76,7 +78,7 @@ function requestMenu(callback) {
   var hour = now.getHours(),
     nextday = hour < 19 ? 0 : 1,
     meal = hour < 13 || nextday ? 'lunch' : 'dinner',
-    day = new Date(now.getTime() + nextday * 86400000).toTimezoneISODateString()
+    day = getTimezoneISODateString(new Date(now.getTime() + nextday * 86400000))
 
   getMenu()
 
@@ -136,7 +138,7 @@ function requestMenu(callback) {
       json.meals.forEach(function ({ date, lunch, dinner }) {
         columns +=
           '<col ' +
-          (date === now.toTimezoneISODateString() ? 'class="today"' : '') +
+          (date === getTimezoneISODateString(now) ? 'class="today"' : '') +
           '/>'
         days +=
           '<th>' +
