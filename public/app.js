@@ -307,7 +307,7 @@ function init() {
   }
 
   document.querySelector('#remember').onclick = function () {
-    effects.slideToggle(document.querySelector('#remember ~ p'))
+    effects.slideToggle(document.querySelector('label[for=remember] + p'))
   }
 
   document.querySelector('form').onsubmit = function () {

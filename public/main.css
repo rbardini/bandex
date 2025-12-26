@@ -53,6 +53,8 @@ input {
 input,
 label {
   font-size: inherit;
+}
+input {
   margin-bottom: 6px;
 }
 input[type='text'],
@@ -60,13 +62,20 @@ input[type='password'] {
   background: none;
   border-style: solid;
   border-width: 0 1px 1px 0;
+  display: block;
   padding: 2px 0;
+}
+input[type='checkbox'] {
+  margin-bottom: 0;
 }
 input[type='submit'] {
   background: var(--fgColor);
   color: var(--bgColor);
   padding: 2px 4px;
   text-align: right;
+}
+label {
+  display: block;
 }
 a {
   color: var(--fgColor);
