@@ -126,7 +126,7 @@ function requestMenu(callback) {
           return date === day
         })
         ?.[meal].menu.forEach(function (food) {
-          nextmeal += '<li><a href="#" title="Visualizar">' + food + '</a></li>'
+          nextmeal += '<li>' + food + '</li>'
           greve = false
         })
 
@@ -241,19 +241,6 @@ async function requestBalance(form, nusp, senha, remember) {
   }
 }
 
-async function displayPicture(anchor) {
-  var imgSearch = '/api/picture?q=' + encodeURIComponent(anchor.text)
-  var item = anchor.closest('li')
-
-  item.classList.add('loading')
-
-  var response = await fetch(imgSearch)
-  var data = await response.json()
-
-  document.body.style.backgroundImage = 'url(' + data.url + ')'
-  item.classList.remove('loading')
-}
-
 function init() {
   window.bandex = {}
   window.bandex.offline = !navigator.onLine
@@ -269,11 +256,6 @@ function init() {
     var nextmeal = document.querySelector('#nextmeal')
     await effects.animate(nextmeal, { marginLeft: '-100%' }, 'slow')
     nextmeal.innerHTML = results.nextmeal
-    nextmeal.onclick = function (event) {
-      if (event.target.tagName !== 'A') return
-      event.preventDefault()
-      displayPicture(event.target)
-    }
     effects.animate(nextmeal, { marginLeft: 0 }, 'slow')
 
     if (results.menu) {

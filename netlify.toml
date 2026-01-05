@@ -4,7 +4,3 @@
 [[edge_functions]]
   path = "/api/menu"
   function = "menu"
-
-[[edge_functions]]
-  path = "/api/picture"
-  function = "picture"

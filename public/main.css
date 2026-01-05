@@ -3,7 +3,6 @@
   --bgColor: hsl(0, 0%, 100%);
   --fgColor: hsl(0, 0%, 0%);
   --infoColor: hsl(0, 0%, 67%);
-  --underlineColor: hsla(0, 0%, 0%, 0.1);
   --overlayColor: hsla(0, 0%, 100%, 0.8);
   --highlightColor: hsl(0, 0%, 93%);
   --errorColor: hsl(0, 86%, 55%);
@@ -14,7 +13,6 @@
     --bgColor: hsl(0, 0%, 0%);
     --fgColor: hsl(0, 0%, 100%);
     --infoColor: hsl(0, 0%, 33%);
-    --underlineColor: hsla(0, 0%, 100%, 0.1);
     --overlayColor: hsla(0, 0%, 0%, 0.8);
     --highlightColor: hsl(0, 0%, 7%);
   }
@@ -116,26 +114,6 @@ p.error {
   line-height: 0.85;
   padding-left: 1em;
   position: relative;
-}
-.loading::before {
-  animation: spinner 0.6s linear infinite;
-  border: 2px solid var(--fgColor);
-  border-radius: 50%;
-  border-top-color: transparent;
-  content: '';
-  display: block;
-  height: 0.5em;
-  left: 0.25em;
-  position: absolute;
-  top: 0.125em;
-  width: 0.5em;
-}
-#nextmeal a {
-  text-decoration: underline 2px var(--underlineColor);
-  transition: all 0.25s;
-}
-#nextmeal a:hover {
-  text-decoration-color: var(--fgColor);
 }
 #nextmeal .title {
   color: var(--infoColor);
