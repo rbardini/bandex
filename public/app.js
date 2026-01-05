@@ -248,7 +248,7 @@ function init() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
     navigator.serviceWorker.ready.then(function () {
-      document.querySelector('.appcache > a').style.display = 'block'
+      document.querySelector('.appcache > a').style.display = 'flex'
     })
   }
 
@@ -263,7 +263,7 @@ function init() {
       document.querySelector('#btn-slide').style.display = 'block'
     }
 
-    document.querySelector('.balance > a').style.display = 'block'
+    document.querySelector('.balance > a').style.display = 'flex'
     if (window.bandex.offline) {
       document.querySelector('.refresh-cache').style.display = 'none'
     }
